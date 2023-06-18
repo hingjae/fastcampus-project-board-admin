@@ -10,6 +10,7 @@ logging:
     com.example.boardprojectadmin: debug
     org.springframework.web.servlet: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.springframework.web.client.RestTemplate: debug
 
 server.port: 8081
 
@@ -51,11 +52,13 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 
+project.board.url: http://localhost:8080
+
 ---
 spring:
   config:
     activate:
-      on-profile: testdb
+      on-profile: test
   datasource:
     url: jdbc:h2:mem:board;mode=mysql
     driver-class-name: org.h2.Driver
