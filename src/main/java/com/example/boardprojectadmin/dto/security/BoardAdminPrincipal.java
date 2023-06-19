@@ -2,7 +2,6 @@ package com.example.boardprojectadmin.dto.security;
 
 import com.example.boardprojectadmin.domain.constant.RoleType;
 import com.example.boardprojectadmin.dto.AdminAccountDto;
-import com.example.boardprojectadmin.dto.UserAccountDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
