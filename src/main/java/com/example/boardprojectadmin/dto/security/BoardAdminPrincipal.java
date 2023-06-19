@@ -1,6 +1,7 @@
 package com.example.boardprojectadmin.dto.security;
 
 import com.example.boardprojectadmin.domain.constant.RoleType;
+import com.example.boardprojectadmin.dto.AdminAccountDto;
 import com.example.boardprojectadmin.dto.UserAccountDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,7 +34,8 @@ public record BoardAdminPrincipal(
                 roleTypes.stream()
                         .map(RoleType::getRoleName)
                         .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toUnmodifiableSet()),
+                        .collect(Collectors.toUnmodifiableSet())
+                ,
                 email,
                 nickname,
                 memo,
@@ -41,7 +43,7 @@ public record BoardAdminPrincipal(
         );
     }
 
-    public static BoardAdminPrincipal from(UserAccountDto dto) {
+    public static BoardAdminPrincipal from(AdminAccountDto dto) {
         return BoardAdminPrincipal.of(
                 dto.userId(),
                 dto.userPassword(),
@@ -52,8 +54,8 @@ public record BoardAdminPrincipal(
         );
     }
 
-    public UserAccountDto toDto() {
-        return UserAccountDto.of(
+    public AdminAccountDto toDto() {
+        return AdminAccountDto.of(
                 username,
                 password,
                 authorities.stream()
@@ -67,49 +69,17 @@ public record BoardAdminPrincipal(
         );
     }
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
+    @Override public String getUsername() { return username; }
+    @Override public String getPassword() { return password; }
+    @Override public Collection<? extends GrantedAuthority> getAuthorities() { return authorities; }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
+    @Override public boolean isAccountNonExpired() { return true; }
+    @Override public boolean isAccountNonLocked() { return true; }
+    @Override public boolean isCredentialsNonExpired() { return true; }
+    @Override public boolean isEnabled() { return true; }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return oAuth2Attributes;
-    } // 인증정보를 받았을 때 인증정보의 전체 내용이 이 곳에 있어야함.
-
-    @Override
-    public String getName() {
-        return username;
-    }
+    @Override public Map<String, Object> getAttributes() { return oAuth2Attributes; }
+    @Override public String getName() { return username; }
 
 }
